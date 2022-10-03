@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">todo</string>
+    <string name="app_name">To Do</string>
+    <string name="deleted_todo">Item removed</string>
+    <string name="empty_todo">Field is empty</string>
 </resources>
