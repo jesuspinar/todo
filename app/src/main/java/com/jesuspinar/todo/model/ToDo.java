@@ -1,7 +1,5 @@
 package com.jesuspinar.todo.model;
 
-import java.util.GregorianCalendar;
-
 public class ToDo {
     private static int AUTOID = 0;
     private int id;
@@ -17,6 +15,11 @@ public class ToDo {
     }
 
     public String getContent() {
+        return content;
+    }
+
+    @Override
+    public String toString() {
         return content;
     }
 }
