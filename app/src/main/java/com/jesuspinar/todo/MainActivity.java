@@ -1,5 +1,6 @@
 package com.jesuspinar.todo;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,14 +12,16 @@ import android.widget.Toast;
 
 import com.jesuspinar.todo.model.ToDo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Serializable {
 
     private ArrayList<ToDo> items;
     private ArrayAdapter<ToDo> itemsAdapter;
     private ListView listView;
     private Button btnAdd;
+    private Button btnSave;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +30,9 @@ public class MainActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.listView);
         btnAdd = findViewById(R.id.btnAdd);
+        btnSave = findViewById(R.id.btnSave);
 
-        items = new ArrayList<>();
+        items = new ArrayList<ToDo>();
         itemsAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, items);
         listView.setAdapter(itemsAdapter);
 
@@ -38,29 +42,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Sets a listener to remove a to do when long click, and updates list
-     */
+     * Sets a listener to remove a to do when long click, and updates list */
     private void listViewListener() {
         listView.setOnItemLongClickListener((adapterView, view, i, l) -> {
-            Toast.makeText(getApplicationContext(), getString(R.string.deleted_todo),
-                Toast.LENGTH_LONG).show();
-            items.remove(i);
-            //Updating Listing
+            itemsAdapter.remove(items.get(i));
             itemsAdapter.notifyDataSetChanged();
+            Toast.makeText(getApplicationContext(), getString(R.string.deleted_todo), Toast.LENGTH_SHORT).show();
             return true;
         });
     }
 
     private void addItem(View view){
-        EditText input = findViewById(R.id.descriptionTodo);
-        String itemText = input.getText().toString();
-        if(!(itemText.equals(""))){
-            ToDo toDo = new ToDo(itemText);
+        EditText tvDescription = findViewById(R.id.tvDescription);
+        String description = tvDescription.getText().toString();
+        if(!(description.equals(""))){
+            ToDo toDo = new ToDo(description);
             itemsAdapter.add(toDo);
-            input.setText("");
-        }else{
-            Toast.makeText(getApplicationContext(),getString(R.string.empty_todo),
-                Toast.LENGTH_LONG).show();
+            tvDescription.setText("");
+            return;
         }
+        Toast.makeText(getApplicationContext(),getString(R.string.empty_todo),Toast.LENGTH_SHORT).show();
     }
 }

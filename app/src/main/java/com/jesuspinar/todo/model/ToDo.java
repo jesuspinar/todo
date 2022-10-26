@@ -1,6 +1,8 @@
 package com.jesuspinar.todo.model;
 
-public class ToDo {
+import java.io.Serializable;
+
+public class ToDo implements Serializable {
     private static int AUTOID = 0;
     private int id;
     private String content;
